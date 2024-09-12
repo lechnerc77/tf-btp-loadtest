@@ -1,4 +1,4 @@
-name: Basis Subaccount via Terraform
+name: Subaccount via OpenTofu
 
 on:
   workflow_dispatch:
@@ -13,11 +13,11 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup OpenTofu
-      id : setup_terraform
-      uses: hashicorp/setup-terraform@v3
+      id : setup_opentofu
+      uses: opentofu/setup-opentofu@v1
       with:
-        terraform_wrapper: false
-        terraform_version: latest
+        tofu_wrapper: false
+        tofu_version: latest
 
     - name: Setup Terramate
       id: setup_terramate
