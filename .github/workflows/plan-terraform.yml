@@ -1,0 +1,36 @@
+name: Subaccounts via Terraform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  execute_base_setuup:
+    name: BTP Subaccount Planning
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out Git repository
+      id: checkout_repo
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      id : setup_terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+        terraform_version: latest
+
+    - name: Setup Terramate
+      id: setup_terramate
+      uses: terramate-io/terramate-action@v2
+      with:
+        version: "latest"
+        use_wrapper: false
+
+    - name: Execute Terramate Plan Script
+      id: terramate_plan
+      shell: bash
+      run: |
+        export TF_VAR_globalaccount=${{ secrets.GLOBALACCOUNT }}
+        export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
+        export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
+        terramate script run -X -j 4 plan
