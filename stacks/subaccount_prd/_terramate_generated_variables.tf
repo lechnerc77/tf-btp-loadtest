@@ -17,10 +17,10 @@ variable "subaccount_name" {
 variable "entitlements" {
   default = {
     APPLICATION_RUNTIME = [
-      "MEMORY=12",
+      "MEMORY=1",
     ]
     INFRA = [
-      "custom_domains=2",
+      "custom_domains=1",
     ]
     alert-notification = [
       "standard",

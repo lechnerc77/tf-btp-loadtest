@@ -37,7 +37,7 @@ generate_hcl "_terramate_generated_variables.tf" {
         "connectivity" = ["connectivity_proxy"]
 
         # Custom Domain Service
-        "INFRA"                 = ["custom_domains=2"] # Custom Domains Service
+        "INFRA"                 = ["custom_domains=1"] # Custom Domains Service
         "custom-domain-manager" = ["standard=1"]       # Application
 
         # Job Scheduling Service
@@ -57,7 +57,7 @@ generate_hcl "_terramate_generated_variables.tf" {
         # Note: Make sure to use a region where no CF runtime limitations apply.
         #       Therefore no eu10, eu20 and eu10-canary.
         #       See https://wiki.wdf.sap.corp/wiki/x/5orko
-        "APPLICATION_RUNTIME" = ["MEMORY=12"]
+        "APPLICATION_RUNTIME" = ["MEMORY=1"]
 
         # SAP Credential Store Service
         "credstore" = ["small=1"]
