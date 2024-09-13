@@ -46,6 +46,6 @@ jobs:
         export TF_VAR_region=${{ github.event.inputs.REGION }}
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
-        terramate run -X -j 4 terraform init
-        terramate run -X terraform apply -auto-approve
-        terramate run -X -tags=${{ matrix.stage }} terraform destroy -auto-approve
+        terramate run -X --tags=${{ matrix.stage }} terraform init
+        terramate run -X --tags=${{ matrix.stage }} terraform apply -auto-approve
+        terramate run -X --tags=${{ matrix.stage }} terraform destroy -auto-approve
