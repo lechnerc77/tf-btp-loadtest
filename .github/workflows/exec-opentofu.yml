@@ -1,7 +1,12 @@
-name: Subaccount via OpenTofu
+name: Apply/Destroy Subaccount via OpenTofu
 
 on:
   workflow_dispatch:
+    inputs:
+      REGION:
+        description: "Region for the sub account"
+        required: true
+        default: "eu10"
 
 jobs:
   execute_base_setuup:
@@ -30,8 +35,10 @@ jobs:
       id: terramate_plan
       shell: bash
       run: |
+        export TF_VAR_region=${{ github.event.inputs.REGION }}
         export TF_VAR_globalaccount=${{ secrets.GLOBALACCOUNT }}
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
+        terramate run -X -j 4 terraform init
         terramate run -X -j 4 tofu apply -auto-approve
         terramate run -X -j 4 tofu destroy -auto-approve

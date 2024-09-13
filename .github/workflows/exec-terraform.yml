@@ -1,7 +1,12 @@
-name: Subaccounts via Terraform
+name: Apply/Destroy Subaccounts via Terraform
 
 on:
   workflow_dispatch:
+    inputs:
+      REGION:
+        description: "Region for the sub account"
+        required: true
+        default: "eu10"
 
 jobs:
   execute_base_setuup:
@@ -31,7 +36,9 @@ jobs:
       shell: bash
       run: |
         export TF_VAR_globalaccount=${{ secrets.GLOBALACCOUNT }}
+        export TF_VAR_region=${{ github.event.inputs.REGION }}
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
+        terramate run -X -j 4 terraform init
         terramate run -X -j 4 terraform apply -auto-approve
         terramate run -X -j 4 terraform destroy -auto-approve
