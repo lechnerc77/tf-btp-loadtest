@@ -2,6 +2,11 @@ name: Subaccounts via Terraform
 
 on:
   workflow_dispatch:
+    inputs:
+      TMPARALLELISM:
+        description: "Limit the number of concurrent operation of Terramate"
+        required: true
+        default: "4"
 
 jobs:
   execute_base_setuup:
@@ -33,4 +38,4 @@ jobs:
         export TF_VAR_globalaccount=${{ secrets.GLOBALACCOUNT }}
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
-        terramate script run -X -j 4 plan
+        terramate script run -X -j ${{ github.event.inputs.TMPARALLELISM }} plan

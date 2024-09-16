@@ -7,6 +7,10 @@ on:
         description: "Region for the sub account"
         required: true
         default: "eu10"
+      TMPARALLELISM:
+        description: "Limit the number of concurrent operation of Terramate"
+        required: true
+        default: "4"
 
 jobs:
   execute_base_setuup:
@@ -39,6 +43,6 @@ jobs:
         export TF_VAR_globalaccount=${{ secrets.GLOBALACCOUNT }}
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
-        terramate run -X -j 4 terraform init
-        terramate run -X -j 4 tofu apply -auto-approve
-        terramate run -X -j 4 tofu destroy -auto-approve
+        terramate run -X -j ${{github.event.inputs.TMPARALLELISM}} terraform init
+        terramate run -X -j ${{github.event.inputs.TMPARALLELISM}} tofu apply -auto-approve
+        terramate run -X -j ${{github.event.inputs.TMPARALLELISM}} tofu destroy -auto-approve
