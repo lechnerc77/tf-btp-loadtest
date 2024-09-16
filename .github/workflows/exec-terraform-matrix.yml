@@ -7,6 +7,11 @@ on:
         description: "Region for the sub account"
         required: true
         default: "eu10"
+      PARALLELISM:
+        description: "Limit the number of concurrent operation as Terraform walks the graph"
+        required: true
+        default: "10"
+
 jobs:
   execute_base_setup:
     strategy:
@@ -47,5 +52,5 @@ jobs:
         export BTP_USERNAME=${{ secrets.BTP_USERNAME }}
         export BTP_PASSWORD=${{ secrets.BTP_PASSWORD }}
         terramate run -X --tags=${{ matrix.stage }} terraform init
-        terramate run -X --tags=${{ matrix.stage }} terraform apply -auto-approve
-        terramate run -X --tags=${{ matrix.stage }} terraform destroy -auto-approve
+        terramate run -X --tags=${{ matrix.stage }} terraform apply -parallelism=${{ github.event.inputs.PARALLELISM }} -auto-approve
+        terramate run -X --tags=${{ matrix.stage }} terraform destroy -parallelism=${{ github.event.inputs.PARALLELISM }} -auto-approve
